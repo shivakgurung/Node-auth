@@ -20,6 +20,9 @@ app.get("/", (req, res) => {
 app.get("/register", (req, res) => {
   res.render("register");
 });
+app.get("/login", (req, res) => {
+  res.render("login");
+});
 
 app.post("/register", async (req, res) => {
   console.log(req.body);
@@ -37,4 +40,29 @@ app.post("/register", async (req, res) => {
     password: bcrypt.hashSync(password, 12),
   });
   res.send("user creted successfully");
+});
+
+app.post("/login", async (req, res) => {
+  console.log(req.body);
+  const { email, password } = req.body;
+  const userExists = await users.findAll({
+    where: {
+      email: email,
+    },
+  });
+  console.log("user exists", userExists);
+
+  if (userExists.length > 0) {
+    //check password
+    const isMatch = bcrypt.compareSync(password, userExists[0].password);
+    // console.log(isMatch);
+    if (isMatch) {
+      res.send("Login Successful!");
+    } else {
+      res.send("Invalid email or password!");
+    }
+  } else {
+    //show error message
+    res.send("Invalid credentials");
+  }
 });

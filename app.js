@@ -60,6 +60,7 @@ app.post("/login", async (req, res) => {
       res.send("Login Successful!");
     } else {
       res.send("Invalid email or password!");
+      //alert('sldf') does not work because it is server side
     }
   } else {
     //show error message

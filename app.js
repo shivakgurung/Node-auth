@@ -34,7 +34,7 @@ app.post("/register", async (req, res) => {
   await users.create({
     email: email,
     username: username,
-    password: bcrypt.hashSync(password, 8),
+    password: bcrypt.hashSync(password, 12),
   });
   res.send("user creted successfully");
 });
